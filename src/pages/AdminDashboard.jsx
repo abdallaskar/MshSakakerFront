@@ -7,8 +7,6 @@ import FormPDF from '../components/FormPDF';
 import { toast } from 'react-toastify';
 
 export default function AdminDashboard() {
-
-
   const navigate = useNavigate();
 
   // Tabs state
@@ -25,8 +23,8 @@ export default function AdminDashboard() {
   // Counters
   const totalUsers = users.length;
   const totalForms = forms.length;
-  const adminUsers = users.filter(user => user.role === 'admin' || user.role === 'مشرف').length;
-  const regularUsers = users.filter(user => user.role === 'user' || user.role === 'مستخدم').length;
+  const adminUsers = users.filter((user) => user.role === 'admin' || user.role === 'مشرف').length;
+  const regularUsers = users.filter((user) => user.role === 'user' || user.role === 'مستخدم').length;
 
   // ✅ Fetch Field Configuration
   const fetchFields = async () => {
@@ -35,7 +33,7 @@ export default function AdminDashboard() {
       const res = await axiosInstance.get('/config');
       setFields(res.data.fields || []);
     } catch (error) {
-      console.error("Error fetching fields:", error);
+      console.error('Error fetching fields:', error);
     } finally {
       setLoading(false);
     }
@@ -45,14 +43,14 @@ export default function AdminDashboard() {
     try {
       await axiosInstance.put(`/config/`, { fields });
       toast.success('تم حفظ جميع التعديلات بنجاح', {
-        position: "top-center",
+        position: 'top-center',
         className: 'custom-toast',
       });
       fetchFields();
     } catch (error) {
-      console.error("Error updating fields:", error);
+      console.error('Error updating fields:', error);
       toast.error('حدث خطأ أثناء حفظ التعديلات', {
-        position: "top-center",
+        position: 'top-center',
         className: 'custom-toast',
       });
     }
@@ -61,18 +59,18 @@ export default function AdminDashboard() {
     try {
       await axiosInstance.post(`/config/reset`);
       toast.success('تم إعادة الحقول إلى الإعدادات الافتراضية', {
-        position: "top-center",
+        position: 'top-center',
         className: 'custom-toast',
       });
       fetchFields();
     } catch (error) {
-      console.error("Error resetting fields:", error);
+      console.error('Error resetting fields:', error);
       toast.error('حدث خطأ أثناء إعادة الحقول', {
-        position: "top-center",
+        position: 'top-center',
         className: 'custom-toast',
       });
     }
-  }
+  };
 
   // ✅ Load fields only when 'fields' tab is active
   useEffect(() => {
@@ -83,10 +81,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [usersRes, formsRes] = await Promise.all([
-          axiosInstance.get('/users'),
-          axiosInstance.get('/form/all')
-        ]);
+        const [usersRes, formsRes] = await Promise.all([axiosInstance.get('/users'), axiosInstance.get('/form/all')]);
         setUsers(usersRes.data);
         setForms(formsRes.data);
       } catch (error) {
@@ -97,7 +92,6 @@ export default function AdminDashboard() {
   }, []);
 
   const handleEditForm = (form) => {
-
     navigate('/form', { state: { mode: 'edit', data: form } });
   };
 
@@ -148,32 +142,12 @@ export default function AdminDashboard() {
 
   const renderStatistics = () => (
     <div className="space-y-6">
-      <h2 className="text-3xl font-bold text-[#15445A] mb-6">إحصائيات المشروع</h2>
+      <h2 className="text-3xl font-bold text-[#15445A] mb-6">إحصائيات البرنامج</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard
-          title="إجمالي المستخدمين"
-          value={totalUsers}
-          icon={Users}
-          color="bg-[#15445A]"
-        />
-        <StatCard
-          title="إجمالي النماذج"
-          value={totalForms}
-          icon={FileText}
-          color="bg-[#0DA9A6]"
-        />
-        <StatCard
-          title="المشرفين"
-          value={adminUsers}
-          icon={TrendingUp}
-          color="bg-green-500"
-        />
-        <StatCard
-          title="المستخدمين العاديين"
-          value={regularUsers}
-          icon={Activity}
-          color="bg-blue-500"
-        />
+        <StatCard title="إجمالي المستخدمين" value={totalUsers} icon={Users} color="bg-[#15445A]" />
+        <StatCard title="إجمالي النماذج" value={totalForms} icon={FileText} color="bg-[#0DA9A6]" />
+        <StatCard title="المشرفين" value={adminUsers} icon={TrendingUp} color="bg-green-500" />
+        <StatCard title="المستخدمين العاديين" value={regularUsers} icon={Activity} color="bg-blue-500" />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white rounded-lg shadow-md p-6 border border-[#C2C1C1]">
@@ -229,15 +203,13 @@ export default function AdminDashboard() {
     </div>
   );
 
-
   const renderForms = () => (
     <div className="space-y-6">
       <h2 className="text-3xl font-bold text-[#15445A] mb-6">جميع النماذج</h2>
 
       <button
         onClick={handleExport}
-        className="px-4 py-2 bg-[#07A869] text-white rounded-lg hover:bg-green-700 cursor-pointer"
-      >
+        className="px-4 py-2 bg-[#07A869] text-white rounded-lg hover:bg-green-700 cursor-pointer">
         تصدير كل النماذج Excel
       </button>
 
@@ -246,7 +218,7 @@ export default function AdminDashboard() {
           <table className="min-w-full text-right">
             <thead className="bg-[#0DA9A6] text-white">
               <tr>
-                <th className="p-3 border-l border-[#C2C1C1]">اسم المشروع</th>
+                <th className="p-3 border-l border-[#C2C1C1]">اسم البرنامج</th>
                 <th className="p-3 border-l border-[#C2C1C1]">الهدف الرئيسي</th>
                 <th className="p-3 border-l border-[#C2C1C1]">الإدارة المالكة</th>
                 <th className="p-3 border-l border-[#C2C1C1]">البريد الإلكتروني</th>
@@ -259,8 +231,7 @@ export default function AdminDashboard() {
               {forms.map((form) => (
                 <tr
                   key={form._id}
-                  className="border-t border-[#C2C1C1] hover:bg-[#090707] transition-colors text-[#15445A]"
-                >
+                  className="border-t border-[#C2C1C1] hover:bg-[#090707] transition-colors text-[#15445A]">
                   <td className="p-3 border-l border-[#C2C1C1]">{form.projectName.value}</td>
                   <td className="p-3 border-l border-[#C2C1C1]">{form.strategicObjective.value}</td>
                   <td className="p-3 border-l border-[#C2C1C1]">{form.ownerName.value}</td>
@@ -268,8 +239,7 @@ export default function AdminDashboard() {
                   <td className="p-3 border-l border-[#C2C1C1]">
                     <button
                       onClick={() => handleEditForm(form)}
-                      className="bg-[#15445A] hover:bg-[#123d52] text-white px-3 py-1 rounded inline-flex items-center gap-1 transition-colors cursor-pointer"
-                    >
+                      className="bg-[#15445A] hover:bg-[#123d52] text-white px-3 py-1 rounded inline-flex items-center gap-1 transition-colors cursor-pointer">
                       <Edit className="w-4 h-4" />
                       تعديل
                     </button>
@@ -278,10 +248,11 @@ export default function AdminDashboard() {
                     <PDFDownloadLink
                       document={<FormPDF form={form} />}
                       fileName={`form-${form.projectName?.value}.pdf`}
-                      className="bg-[#0DA9A6] hover:bg-[#0C8B8A] text-white px-3 py-1 rounded inline-flex items-center gap-1 transition-colors cursor-pointer"
-                    >
+                      className="bg-[#0DA9A6] hover:bg-[#0C8B8A] text-white px-3 py-1 rounded inline-flex items-center gap-1 transition-colors cursor-pointer">
                       {({ loading }) =>
-                        loading ? 'جارٍ التحميل...' : (
+                        loading ? (
+                          'جارٍ التحميل...'
+                        ) : (
                           <>
                             <Download className="w-4 h-4" />
                             PDF
@@ -293,8 +264,7 @@ export default function AdminDashboard() {
                   <td className="p-3 border-l border-[#C2C1C1]">
                     <button
                       onClick={() => handleWordExport(form)}
-                      className="bg-[#3D7EB9] hover:bg-[#336FA3] text-white px-3 py-1 rounded inline-flex items-center gap-1 transition-colors cursor-pointer"
-                    >
+                      className="bg-[#3D7EB9] hover:bg-[#336FA3] text-white px-3 py-1 rounded inline-flex items-center gap-1 transition-colors cursor-pointer">
                       <Download className="w-4 h-4" />
                       Word
                     </button>
@@ -323,14 +293,18 @@ export default function AdminDashboard() {
               </tr>
             </thead>
             <tbody>
-              {users.map(user => (
-                <tr key={user._id} className="border-t border-[#C2C1C1] hover:bg-[#F9F9F9] transition-colors text-[#15445A]">
+              {users.map((user) => (
+                <tr
+                  key={user._id}
+                  className="border-t border-[#C2C1C1] hover:bg-[#F9F9F9] transition-colors text-[#15445A]">
                   <td className="p-3 border-l border-[#C2C1C1]">{user.userName}</td>
                   <td className="p-3 border-l border-[#C2C1C1]">{user.email}</td>
                   <td className="p-3 border-l border-[#C2C1C1]">
-                    <span className={`px-2 py-1 text-sm rounded-full ${user.role === 'admin' || user.role === 'مشرف'
-                      ? 'bg-[#0DA9A6] text-white'
-                      : 'bg-gray-200 text-gray-800'
+                    <span
+                      className={`px-2 py-1 text-sm rounded-full ${
+                        user.role === 'admin' || user.role === 'مشرف'
+                          ? 'bg-[#0DA9A6] text-white'
+                          : 'bg-gray-200 text-gray-800'
                       }`}>
                       {user.role}
                     </span>
@@ -359,7 +333,9 @@ export default function AdminDashboard() {
       ) : (
         <div className="space-y-4">
           {fields.map((field, index) => (
-            <div key={index} className="p-3 font-bold  bg-white rounded shadow border border-[#0DA9A6] space-y-3 text-[#15445A] text-sm">
+            <div
+              key={index}
+              className="p-3 font-bold  bg-white rounded shadow border border-[#0DA9A6] space-y-3 text-[#15445A] text-sm">
               <div className="flex flex-col md:flex-row gap-4">
                 {/* Label Input */}
                 <div className="flex-1 space-y-1">
@@ -367,9 +343,7 @@ export default function AdminDashboard() {
                   <input
                     value={field.label}
                     onChange={(e) =>
-                      setFields((prev) =>
-                        prev.map((f, i) => i === index ? { ...f, label: e.target.value } : f)
-                      )
+                      setFields((prev) => prev.map((f, i) => (i === index ? { ...f, label: e.target.value } : f)))
                     }
                     className="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-[#0DA9A6]"
                   />
@@ -381,9 +355,7 @@ export default function AdminDashboard() {
                   <input
                     value={field.placeholder}
                     onChange={(e) =>
-                      setFields((prev) =>
-                        prev.map((f, i) => i === index ? { ...f, placeholder: e.target.value } : f)
-                      )
+                      setFields((prev) => prev.map((f, i) => (i === index ? { ...f, placeholder: e.target.value } : f)))
                     }
                     className="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-[#0DA9A6]"
                   />
@@ -396,9 +368,7 @@ export default function AdminDashboard() {
                   type="checkbox"
                   checked={field.isRequired}
                   onChange={(e) =>
-                    setFields((prev) =>
-                      prev.map((f, i) => i === index ? { ...f, isRequired: e.target.checked } : f)
-                    )
+                    setFields((prev) => prev.map((f, i) => (i === index ? { ...f, isRequired: e.target.checked } : f)))
                   }
                 />
                 <label className="font-medium">حقل إجباري؟</label>
@@ -410,14 +380,12 @@ export default function AdminDashboard() {
           <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-6">
             <button
               onClick={handleAllFieldsUpdate}
-              className="w-72 py-3 bg-[#0DA9A6] cursor-pointer text-white rounded-lg text-lg font-bold hover:bg-[#0c8b89] transition-all"
-            >
+              className="w-72 py-3 bg-[#0DA9A6] cursor-pointer text-white rounded-lg text-lg font-bold hover:bg-[#0c8b89] transition-all">
               حفظ جميع التعديلات
             </button>
             <button
               onClick={handleResetFields}
-              className="w-72 py-3 bg-[#15445A] cursor-pointer text-white rounded-lg text-lg font-bold hover:bg-[#133d52] transition-all"
-            >
+              className="w-72 py-3 bg-[#15445A] cursor-pointer text-white rounded-lg text-lg font-bold hover:bg-[#133d52] transition-all">
               إعادة الحقول إلى الإعدادات الافتراضية
             </button>
           </div>
@@ -425,7 +393,6 @@ export default function AdminDashboard() {
       )}
     </div>
   );
-
 
   const renderContent = () => {
     switch (activeTab) {
@@ -451,47 +418,41 @@ export default function AdminDashboard() {
         <nav className="flex-1 p-4 space-y-2">
           <button
             onClick={() => setActiveTab('statistics')}
-            className={`w-full flex items-center gap-3 px-4 py-3 cursor-pointer rounded-lg text-right transition-colors ${activeTab === 'statistics'
-              ? 'bg-[#0DA9A6] text-white'
-              : 'text-gray-300 hover:bg-[#133d52] hover:text-white'
-              }`}
-          >
+            className={`w-full flex items-center gap-3 px-4 py-3 cursor-pointer rounded-lg text-right transition-colors ${
+              activeTab === 'statistics'
+                ? 'bg-[#0DA9A6] text-white'
+                : 'text-gray-300 hover:bg-[#133d52] hover:text-white'
+            }`}>
             <BarChart3 className="w-5 h-5" />
             الإحصائيات
           </button>
           <button
             onClick={() => setActiveTab('forms')}
-            className={`w-full flex items-center gap-3 px-4 py-3 cursor-pointer rounded-lg text-right transition-colors ${activeTab === 'forms'
-              ? 'bg-[#0DA9A6] text-white'
-              : 'text-gray-300 hover:bg-[#133d52] hover:text-white'
-              }`}
-          >
+            className={`w-full flex items-center gap-3 px-4 py-3 cursor-pointer rounded-lg text-right transition-colors ${
+              activeTab === 'forms' ? 'bg-[#0DA9A6] text-white' : 'text-gray-300 hover:bg-[#133d52] hover:text-white'
+            }`}>
             <FileText className="w-5 h-5" />
             النماذج
           </button>
           <button
             onClick={() => setActiveTab('users')}
-            className={`w-full flex items-center gap-3 px-4 py-3 cursor-pointer rounded-lg text-right transition-colors ${activeTab === 'users'
-              ? 'bg-[#0DA9A6] text-white'
-              : 'text-gray-300 hover:bg-[#133d52] hover:text-white'
-              }`}
-          >
+            className={`w-full flex items-center gap-3 px-4 py-3 cursor-pointer rounded-lg text-right transition-colors ${
+              activeTab === 'users' ? 'bg-[#0DA9A6] text-white' : 'text-gray-300 hover:bg-[#133d52] hover:text-white'
+            }`}>
             <Users className="w-5 h-5" />
             المستخدمين
           </button>
           <button
             onClick={() => setActiveTab('fields')}
-            className={`w-full flex items-center gap-3 px-4 py-3 cursor-pointer rounded-lg text-right transition-colors ${activeTab === 'fields' ? 'bg-[#0DA9A6] text-white' : 'text-gray-300 hover:bg-[#133d52] hover:text-white'
-              }`}
-          >
+            className={`w-full flex items-center gap-3 px-4 py-3 cursor-pointer rounded-lg text-right transition-colors ${
+              activeTab === 'fields' ? 'bg-[#0DA9A6] text-white' : 'text-gray-300 hover:bg-[#133d52] hover:text-white'
+            }`}>
             <Settings className="w-5 h-5" />
             إعدادات الحقول
           </button>
         </nav>
       </div>
-      <div className="flex-1 p-8">
-        {renderContent()}
-      </div>
+      <div className="flex-1 p-8">{renderContent()}</div>
     </div>
   );
 }
