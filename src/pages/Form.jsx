@@ -200,7 +200,7 @@ export default function Form() {
                 {/* Project Name */}
                 <div className="p-2 md:p-4">
                   <label className="block mb-2 text-white font-semibold bg-[#0DA9A6] p-2 text-center md:text-right rounded">
-                    {formData.projectName?.label || 'اسم المشروع'}
+                    {formData.projectName?.label || 'اسم البرنامج'}
                   </label>
                   <input
                     type="text"
@@ -220,7 +220,7 @@ export default function Form() {
                 {/* Owner Name */}
                 <div className="p-2 md:p-4">
                   <label className="block mb-2 text-white font-semibold bg-[#0DA9A6] p-2 text-center md:text-right rounded">
-                    {formData.ownerName?.label || 'مالك المشروع ) إدارة / كلية ('}
+                    {formData.ownerName?.label || 'مالك البرنامج  إدارة / كلية '}
                   </label>
                   <input
                     type="text"
