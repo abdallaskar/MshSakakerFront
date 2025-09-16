@@ -242,7 +242,8 @@ export default function AdminDashboard() {
                 <th className="p-3 border-l border-[#C2C1C1]">الهدف الرئيسي</th>
                 <th className="p-3 border-l border-[#C2C1C1]">الإدارة المالكة</th>
                 <th className="p-3 border-l border-[#C2C1C1]">البريد الإلكتروني</th>
-                <th className="p-3 border-l border-[#C2C1C1]">تعديل و حذف </th>
+                <th className="p-3 border-l border-[#C2C1C1]">تعديل </th>
+                <th className="p-3 border-l border-[#C2C1C1]">حذف </th>
                 <th className="p-3 border-l border-[#C2C1C1]">PDF</th>
                 <th className="p-3 border-l border-[#C2C1C1]">Word</th>
               </tr>
@@ -259,13 +260,15 @@ export default function AdminDashboard() {
                   <td className="p-3 border-l border-[#C2C1C1]">
                     <button
                       onClick={() => handleEditForm(form)}
-                      className="bg-[#15445A] hover:bg-[#123d52] text-white px-3 py-1 rounded inline-flex items-center gap-1 transition-colors cursor-pointer ml-2">
+                      className="bg-[#15445A] hover:bg-[#123d52] text-white px-3 py-1 rounded inline-flex items-center gap-1 transition-colors cursor-pointer">
                       <Edit className="w-4 h-4" />
                       تعديل
                     </button>
+                  </td>
+                  <td className="p-3 border-l border-[#C2C1C1]">
                     <button
                       onClick={() => handleDeleteForm(form)}
-                      className="bg-red-600 hover:bg-red-700  text-white px-3 py-1 rounded inline-flex items-center gap-1 transition-colors cursor-pointer mr-2">
+                      className="bg-red-600 hover:bg-red-700  text-white px-3 py-1 rounded inline-flex items-center gap-1 transition-colors cursor-pointer ">
                       {/* <Trash2 className="w-4 h-4" /> */}
                       حذف
                     </button>
