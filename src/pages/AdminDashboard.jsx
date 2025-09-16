@@ -95,6 +95,26 @@ export default function AdminDashboard() {
     navigate('/form', { state: { mode: 'edit', data: form } });
   };
 
+  const handleDeleteForm = async (form) => {
+    if (window.confirm(`هل أنت متأكد من حذف النموذج "${form.projectName?.value}"؟ لا يمكن التراجع عن هذا الإجراء.`)) {
+      try {
+        const response = await axiosInstance.delete(`/form/delete/${form._id}`);
+
+        setForms((prevForms) => prevForms.filter((f) => f._id !== form._id));
+        toast.success('تم حذف النموذج بنجاح', {
+          position: 'top-center',
+          className: 'custom-toast',
+        });
+      } catch (error) {
+        console.error('Error deleting form:', error);
+        toast.error('حدث خطأ أثناء حذف النموذج', {
+          position: 'top-center',
+          className: 'custom-toast',
+        });
+      }
+    }
+  };
+
   const handleWordExport = async (form) => {
     const res = await axiosInstance.get(`/export/word?formId=${form._id}`, {
       responseType: 'blob',
@@ -222,7 +242,7 @@ export default function AdminDashboard() {
                 <th className="p-3 border-l border-[#C2C1C1]">الهدف الرئيسي</th>
                 <th className="p-3 border-l border-[#C2C1C1]">الإدارة المالكة</th>
                 <th className="p-3 border-l border-[#C2C1C1]">البريد الإلكتروني</th>
-                <th className="p-3 border-l border-[#C2C1C1]">تعديل</th>
+                <th className="p-3 border-l border-[#C2C1C1]">تعديل و حذف </th>
                 <th className="p-3 border-l border-[#C2C1C1]">PDF</th>
                 <th className="p-3 border-l border-[#C2C1C1]">Word</th>
               </tr>
@@ -239,9 +259,15 @@ export default function AdminDashboard() {
                   <td className="p-3 border-l border-[#C2C1C1]">
                     <button
                       onClick={() => handleEditForm(form)}
-                      className="bg-[#15445A] hover:bg-[#123d52] text-white px-3 py-1 rounded inline-flex items-center gap-1 transition-colors cursor-pointer">
+                      className="bg-[#15445A] hover:bg-[#123d52] text-white px-3 py-1 rounded inline-flex items-center gap-1 transition-colors cursor-pointer ml-2">
                       <Edit className="w-4 h-4" />
                       تعديل
+                    </button>
+                    <button
+                      onClick={() => handleDeleteForm(form)}
+                      className="bg-red-600 hover:bg-red-700  text-white px-3 py-1 rounded inline-flex items-center gap-1 transition-colors cursor-pointer mr-2">
+                      {/* <Trash2 className="w-4 h-4" /> */}
+                      حذف
                     </button>
                   </td>
                   <td className="p-3 border-l border-[#C2C1C1]">
